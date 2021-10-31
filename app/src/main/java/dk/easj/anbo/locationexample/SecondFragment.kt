@@ -2,15 +2,13 @@ package dk.easj.anbo.locationexample
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.location.Address
-import android.location.Geocoder
 import android.os.Bundle
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
@@ -19,8 +17,6 @@ import dk.easj.anbo.locationexample.databinding.FragmentSecondBinding
 class SecondFragment : Fragment() {
     private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
-
-    private var requestingLocationUpdates = false
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback

@@ -2,16 +2,15 @@ package dk.easj.anbo.locationexample
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -24,6 +23,7 @@ class FirstFragment : Fragment() {
 
     // build.gradle        implementation 'com.google.android.gms:play-services-location:18.0.0'
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var geocoder: Geocoder
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +35,8 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        geocoder = Geocoder(activity)
 
         val locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
@@ -72,16 +74,18 @@ class FirstFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun doIt() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             // Got last known location. In some rare situations this can be null.
             if (location == null) {
                 binding.textviewFirst.text = "No location"
                 Log.d("APPLE", "Location is null")
             } else {
-                binding.textviewFirst.text =
-                    "Location: " + location.latitude + " " + location.longitude
-                Log.d("APPLE", "Location " + location.latitude + " " + location.longitude)
+                val locations = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                val loc = "Lat: " + location.latitude + " Lon: " + location.longitude + "\n" +
+                        locations[0].getAddressLine(0)
+                binding.textviewFirst.text = loc
+                Log.d("APPLE", loc)
             }
         }
     }
