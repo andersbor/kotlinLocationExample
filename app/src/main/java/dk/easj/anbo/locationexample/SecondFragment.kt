@@ -70,7 +70,7 @@ class SecondFragment : Fragment() {
                 locationResult ?: return // null, means return
                 for (location in locationResult.locations) {
                     binding.textviewSecond.append(
-                        "Loc: " + location.latitude + " " + location.longitude + "\n"
+                        "\nLoc: " + location.latitude + " " + location.longitude
                     )
                 }
             }
