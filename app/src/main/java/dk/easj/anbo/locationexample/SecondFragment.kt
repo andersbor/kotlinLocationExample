@@ -27,7 +27,6 @@ class SecondFragment : Fragment() {
     ): View {
         _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,8 +65,8 @@ class SecondFragment : Fragment() {
         )
 
         locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return // null, means return
+            override fun onLocationResult(locationResult: LocationResult) {
+                //locationResult ?: return // null, means return
                 for (location in locationResult.locations) {
                     binding.textviewSecond.append(
                         "\nLoc: " + location.latitude + " " + location.longitude
@@ -83,7 +82,7 @@ class SecondFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         fusedLocationClient.requestLocationUpdates(
             LocationRequest.create(),
             locationCallback,
