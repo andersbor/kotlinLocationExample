@@ -36,7 +36,7 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        geocoder = Geocoder(activity)
+        geocoder = Geocoder(requireActivity())
 
         val locationPermissionRequest =
             registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions())
@@ -82,10 +82,14 @@ class FirstFragment : Fragment() {
                 Log.d("APPLE", "Location is null")
             } else {
                 val locations = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                val loc = "Lat: " + location.latitude + " Lon: " + location.longitude + "\n" +
-                        locations[0].getAddressLine(0)
-                binding.textviewFirst.text = loc
-                Log.d("APPLE", loc)
+                if (locations.isNullOrEmpty()) {
+                    binding.textviewFirst.text = "No locations"
+                } else {
+                    val loc = "Lat: " + location.latitude + " Lon: " + location.longitude + "\n" +
+                            locations[0].getAddressLine(0)
+                    binding.textviewFirst.text = loc
+                    Log.d("APPLE", loc)
+                }
             }
         }
     }
