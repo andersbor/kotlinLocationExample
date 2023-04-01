@@ -79,7 +79,7 @@ class FirstFragment : Fragment() {
             // Got last known location. In some rare situations this can be null.
             if (location == null) {
                 binding.textviewFirst.text = "No location"
-                Log.d("APPLE", "Location is null")
+                Log.d("PAPPLE", "Location is null")
             } else {
                 val locations = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                 if (locations.isNullOrEmpty()) {
@@ -88,7 +88,7 @@ class FirstFragment : Fragment() {
                     val loc = "Lat: " + location.latitude + " Lon: " + location.longitude + "\n" +
                             locations[0].getAddressLine(0)
                     binding.textviewFirst.text = loc
-                    Log.d("APPLE", loc)
+                    Log.d("PAPPLE", loc)
                 }
             }
         }
